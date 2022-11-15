@@ -5,6 +5,5 @@
 
 
 ## Future Update
-> - Refreash botton
 > - Provide choices to choose location to view
 > - update the UI 
