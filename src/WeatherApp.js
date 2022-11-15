@@ -102,7 +102,7 @@ const WeatherApp = (props) => {
 
     const [weather, setWeather] = useState({
         updateTime: '2022-11-11T10:02:00+08:00',
-        currentTemp: 26.1,
+        currentTemp: 0,
         humidity: 67,
         weatherIcon: 51,
         tempRange: '23-29',
@@ -145,9 +145,7 @@ const WeatherApp = (props) => {
 
     return (
         <Container >
-            {console.log(`${LOCATION} is loading: ${weather.isLoading}`)}
-            {weather.isLoading?'Loading...'
-            :
+            {weather.isLoading?console.log('loading'):''}
             <WeatherCard >
                 <Text>
                 <Location>{LOCATION}</Location>
@@ -159,10 +157,11 @@ const WeatherApp = (props) => {
                 </Text>
                 <Graph>
                     <WeatherIcon weatherIcon={weather.weatherIcon} />
-                    <RefreshButton onClick={fetchData} />
+                    <RefreshButton onClick={fetchData} 
+                    isLoading={weather.isLoading} />
                 </Graph>
             </WeatherCard>
-            }
+
         </Container>
     )
 }
