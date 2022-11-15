@@ -1,6 +1,7 @@
 import styled from "@emotion/styled"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import WeatherIcon from "./WeatherIcon"
+import RefreshButton from "./Refreash"
 
 const Container = styled.div`
     display: flex;
@@ -47,6 +48,12 @@ const Rainfall = styled.div`
 
 const Text = styled.div`
 
+`
+
+const Graph = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 `
 
 const Datetime = styled.div`
@@ -107,8 +114,10 @@ const WeatherApp = (props) => {
         minute: 'numeric',
     }).format(new Date(weather.updateTime))
 
-    useEffect(() => {
-        const fetchData = async () => {
+    const fetchData = useCallback (() => {
+        const fetchingData = async () => {
+
+            console.log('fetching data')
             const [currentWeather, forecastWeather] = await Promise.all([
                 fetchCurrent(LOCATION),
                 fetchForecast()
@@ -118,8 +127,8 @@ const WeatherApp = (props) => {
                 ...forecastWeather,
                 isLoading: false,
             })
-
         }
+
         setWeather(prevState => {
             return {
                 ...prevState,
@@ -127,12 +136,18 @@ const WeatherApp = (props) => {
             }
         })
 
+        fetchingData()
+    },[LOCATION])
+
+    useEffect(() => {
         fetchData()
-    }, [LOCATION])
+    },[fetchData])
 
     return (
         <Container >
-            {weather.isLoading?'Loading...':
+            {console.log(`${LOCATION} is loading: ${weather.isLoading}`)}
+            {weather.isLoading?'Loading...'
+            :
             <WeatherCard >
                 <Text>
                 <Location>{LOCATION}</Location>
@@ -142,8 +157,12 @@ const WeatherApp = (props) => {
                 <Rainfall>{weather.rainfall}</Rainfall>
                 <Datetime>{`Last update: ${lastUpdateStr}`}</Datetime>
                 </Text>
-                <WeatherIcon weatherIcon={weather.weatherIcon} />
-            </WeatherCard>}
+                <Graph>
+                    <WeatherIcon weatherIcon={weather.weatherIcon} />
+                    <RefreshButton onClick={fetchData} />
+                </Graph>
+            </WeatherCard>
+            }
         </Container>
     )
 }

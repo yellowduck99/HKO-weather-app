@@ -2,6 +2,7 @@ import WeatherApp from './WeatherApp';
 import styled from '@emotion/styled';
 import { ThemeProvider } from '@emotion/react'
 import Theme from "./Theme"
+import ChoseTheme from './ChoseTheme';
 import { useState } from 'react';
 
 const Wrap = styled.div`
@@ -11,31 +12,6 @@ const Wrap = styled.div`
     gap: 10px;
     background-color: ${({ theme }) => theme.backgroundColor};
 `
-
-const Control = styled.div`
-display: flex;
-gap: 10px;
-`
-
-const ChoseTheme = (props) => {
-
-    const {handleClick} = props
-
-    return (
-        <Control>
-            <p>Day</p>
-            <div className='form-check form-switch  '>
-            <input className='form-check-input'
-            type='checkbox' role="switch"
-            onChange={(e) => handleClick(e)}
-            id="flexSwitchCheckDefault" />
-            </div>
-            <p>Night</p>
-        </Control>
-        
-      
-    )
-}
 
 const App = () => {
 
